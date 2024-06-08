@@ -71,8 +71,8 @@ const corsOptions = {
   res
     .cookie('token', token, {
       httpOnly: true,
-      // secure: process.env.NODE_ENV === 'production',
-      // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     })
     .send({ success: true })
 })
@@ -90,6 +90,11 @@ app.get('/logout', async (req, res) => {
   } catch (err) {
     res.status(500).send(err)
   }
+})
+
+app.get('/users', verifyToken, async (req, res) => {
+  const result = await usersCollection.find().toArray()
+  res.send(result)
 })
 
 
