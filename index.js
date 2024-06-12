@@ -91,6 +91,32 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/users/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await usersCollection
+        .find({ email: req.params.email })
+        .toArray();
+      res.send(result);
+      // res.send({ hi: "Hii" });
+    });
+
+    app.post("/users", async (req, res) => {
+      const user  = req.body;
+      const result = await usersCollection.insertOne(user);
+      res.send(result);
+    });
+
+
+    app.patch('/users/update/:email', async (req, res) => {
+      const email = req.params.email
+      const user = req.body
+      const query = { email }
+      const updateDoc = {
+        $set: { ...user, timestamp: Date.now() },
+      }
+      const result = await usersCollection.updateOne(query, updateDoc)
+      res.send(result)
+    })
     // parcel book
     app.post("/parcel", async (req, res) => {
       const parcelBook = req.body;
