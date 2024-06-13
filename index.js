@@ -20,13 +20,13 @@ app.use(cookieParser());
 
 const verifyToken = async (req, res, next) => {
   const token = req.cookies?.token;
-  console.log(token);
+  // console.log(token);
   if (!token) {
     return res.status(401).send({ message: "unauthorized access" });
   }
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       return res.status(401).send({ message: "unauthorized access" });
     }
     req.user = decoded;
@@ -80,7 +80,7 @@ async function run() {
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
           })
           .send({ success: true });
-        console.log("Logout successful");
+        // console.log("Logout successful");
       } catch (err) {
         res.status(500).send(err);
       }
@@ -92,7 +92,7 @@ async function run() {
     });
 
     app.get("/users/:email", async (req, res) => {
-      console.log(req.params.email);
+      // console.log(req.params.email);
       const result = await usersCollection
         .find({ email: req.params.email })
         .toArray();
@@ -160,7 +160,7 @@ async function run() {
       res.send(result);
     });
 
-    app.patch('/parcels/:id', async (req, res) => {
+    app.patch('/parcel/:id', async (req, res) => {
       const { id } = req.params;
       const { status } = req.body;
       try {
