@@ -123,12 +123,46 @@ async function run() {
       const result = await parcelCollection.insertOne(parcelBook);
       res.send(result);
     });
-    app.get("/parcel", async (req, res) => {
-      const { userId } = req.query;
-      const cursor = parcelCollection.find({ userId });
-      const result = await cursor.toArray();
+    // app.get("/parcel", async (req, res) => {
+    //   const { userId } = req.query;
+    //   const cursor = parcelCollection.find({ userId });
+    //   const result = await cursor.toArray();
+    //   res.send(result);
+    // });
+
+
+    app.put("/parcel/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateParcel = req.body;
+
+      const parcel = {
+        $set: {
+          parcelType: updateParcel.parcelType,
+          requestedDeliveryDate: updateParcel.requestedDeliveryDate,
+          
+        },
+      };
+
+      const result = await parcelCollection.updateOne(
+        filter,
+        parcel,
+        options
+      );
       res.send(result);
     });
+
+
+    app.get("/parcel/:email", async (req, res) => {
+      // console.log(req.params.email);
+      const result = await parcelCollection
+        .find({ email: req.params.email })
+        .toArray();
+      res.send(result);
+      // res.send({ hi: "Hii" });
+    });
+
 
 
     app.delete("/parcel/:id", async (req, res) => {
