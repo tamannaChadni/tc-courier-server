@@ -123,12 +123,13 @@ async function run() {
       const result = await parcelCollection.insertOne(parcelBook);
       res.send(result);
     });
-    // app.get("/parcel", async (req, res) => {
-    //   const { userId } = req.query;
-    //   const cursor = parcelCollection.find({ userId });
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
+    
+    app.get("/parcel", async (req, res) => {
+      const { userId } = req.query;
+      const cursor = parcelCollection.find({ userId });
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
 
     app.put("/parcel/:id", async (req, res) => {
