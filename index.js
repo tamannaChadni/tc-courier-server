@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const port = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:5174",'https://tc-courier-59107.web.app/','https://tc-courier.netlify.app/'],
+  origin: ["http://localhost:5173", "http://localhost:5174",'https://tc-courier-59107.web.app','https://tc-courier.netlify.app'],
   credentials: true,
   optionSuccessStatus: 200,
 };
